@@ -1,8 +1,8 @@
 const graphql = require('graphql');
 const axios = require('axios');
-const {
-  GraphQLObjectType,
-  GraphQLString,
+const {              // lots of destructing from graphql
+  GraphQLObjectType, // tells about presents of our objects in application
+  GraphQLString,  // typy naszych properties
   GraphQLInt,
   GraphQLSchema,
   GraphQLList,
@@ -25,10 +25,10 @@ const CompanyType = new GraphQLObjectType({
   })
 });
 
-const UserType = new GraphQLObjectType({
-  name: 'User',
-  fields: () => ({
-    id: { type: GraphQLString },
+const UserType = new GraphQLObjectType({  // tells about presents of "User" object in application. Opisuje object "User" z grafiki
+  name: 'User',  // nazwa obiektu
+  fields: () => ({  // bardzo ważne - mówi GraphQL o properties naszego obiektu
+    id: { type: GraphQLString }, // musimy powiedzieć jakiego typu jest property - typy pochodzą z GraphQL library
     firstName: { type: GraphQLString },
     age: { type: GraphQLInt },
     company: {
@@ -41,14 +41,14 @@ const UserType = new GraphQLObjectType({
   })
 });
 
-const RootQuery = new GraphQLObjectType({
+const RootQuery = new GraphQLObjectType({  // RootQuery -> początkowy obiekt, z którego zaczynamy GrapQL queries.
   name: 'RootQueryType',
   fields: {
     user: {
-      type: UserType,
-      args: { id: { type: GraphQLString } },
-      resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/users/${args.id}`)
+      type: UserType,  // typ, kótry zostanie zwrócony. (patrz linia 28)
+      args: { id: { type: GraphQLString } }, // required arguments for root query (tutaj "id" user'a). To co tutaj podamy będzie dostępne jako 'args' funkcji "resolve"
+      resolve(parentValue, args) {  // bardzo ważna funkcja! 
+        return axios.get(`http://localhost:3000/users/${args.id}`)  // tutaj idziemy do naszej bazy danych i szukamy rzeczywistej danej (tu: user o konkretnym id)
           .then(resp => resp.data);
       }
     },
@@ -91,7 +91,7 @@ const mutation = new GraphQLObjectType({
   }
 });
 
-module.exports = new GraphQLSchema({
+module.exports = new GraphQLSchema({  // exportujemy schema, aby było dostęne dla express (server.js)
   mutation,
   query: RootQuery
 });
