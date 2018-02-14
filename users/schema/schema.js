@@ -9,7 +9,7 @@ const {              // lots of destructing from graphql
   GraphQLNonNull
 } = graphql;
 
-const CompanyType = new GraphQLObjectType({
+const CompanyType = new GraphQLObjectType({  // tells about presents of "Company" object in application. Opisuje object "Company" z grafiki
   name: 'Company',
   fields: () => ({
     id: { type: GraphQLString },
@@ -34,7 +34,7 @@ const UserType = new GraphQLObjectType({  // tells about presents of "User" obje
     company: {
       type: CompanyType,
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`)
+        return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`)  // to co tutaj jest zwracane (return), będzie odpowiedzią na nasze GraphQL query.
           .then(res => res.data);
       }
     }
@@ -48,7 +48,7 @@ const RootQuery = new GraphQLObjectType({  // RootQuery -> początkowy obiekt, z
       type: UserType,  // typ, kótry zostanie zwrócony. (patrz linia 28)
       args: { id: { type: GraphQLString } }, // required arguments for root query (tutaj "id" user'a). To co tutaj podamy będzie dostępne jako 'args' funkcji "resolve"
       resolve(parentValue, args) {  // bardzo ważna funkcja! 
-        return axios.get(`http://localhost:3000/users/${args.id}`)  // tutaj idziemy do naszej bazy danych i szukamy rzeczywistej danej (tu: user o konkretnym id)
+        return axios.get(`http://localhost:3000/users/${args.id}`)  // tutaj idziemy do naszej bazy danych i szukamy rzeczywistej danej (tu: user o konkretnym id). Pobierane z fake JSON API
           .then(resp => resp.data);
       }
     },
