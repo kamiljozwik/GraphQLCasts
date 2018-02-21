@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';  // pomaga w pisaniu GraphQL queries w komponentach 
+import { graphql } from 'react-apollo';  // pomaga w wykonaiu query i wciągnięciu danych do komponentu.
 import { Link } from 'react-router';
 import query from '../queries/fetchSongs';
 
@@ -10,8 +10,8 @@ class SongList extends Component {
       .then(() => this.props.data.refetch());
   }
 
-  renderSongs() {
-    return this.props.data.songs.map(({ id, title }) => {
+  renderSongs() {  // helper method to iterate over array of songs and return one valid JSX to render method
+    return this.props.data.songs.map(({ id, title }) => {   // dane z GraphQL dostępne pod this.props.data
       return (
         <li key={id} className="collection-item">
           <Link to={`/songs/${id}`}>
@@ -29,7 +29,7 @@ class SongList extends Component {
   }
 
   render() {
-    if (this.props.data.loading) { return <div>Loading...</div>; }
+    if (this.props.data.loading) { return <div>Loading...</div>; }  // czekamy aż dane zostane pobrane z serwera
 
     return (
       <div>
@@ -56,5 +56,5 @@ const mutation = gql`
 `;
 
 export default graphql(mutation)(
-  graphql(query)(SongList)
+  graphql(query)(SongList)    // połączenie danych z GraphQL z komponentem; (Bond query + component) z checklisty
 );
