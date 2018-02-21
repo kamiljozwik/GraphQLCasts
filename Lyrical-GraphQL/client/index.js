@@ -2,21 +2,21 @@ import './style/style.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRoute } from 'react-router';
-import ApolloClient from 'apollo-client';
-import { ApolloProvider } from 'react-apollo';
+import ApolloClient from 'apollo-client';  // import Apollo Client (niezależne od frontowego frameworka)
+import { ApolloProvider } from 'react-apollo';  // wersja Apollo tylko dla Reacta
 
 import App from './components/App';
 import SongList from './components/SongList';
 import SongCreate from './components/SongCreate';
 import SongDetail from './components/SongDetail';
 
-const client = new ApolloClient({
-  dataIdFromObject: o => o.id
+const client = new ApolloClient({    // new instance of Apollo Client, zakłada, że na backendzie query będą szły pod path /graphql (tak też jest wszystko ustawione w pliku index folderu server)
+  dataIdFromObject: o => o.id        // konfiguracja Apollo CLient'a
 });
 
 const Root = () => {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client}>  // musimy podać Apollo Client - "client". "Glue between React and Apollo's world (GraphQL's world)"
       <Router history={hashHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={SongList} />
