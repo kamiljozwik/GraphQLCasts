@@ -5,13 +5,13 @@ import { Link } from 'react-router';
 import query from '../queries/fetchSongs';
 
 class SongList extends Component {
-  onSongDelete(id) {
-    this.props.mutate({ variables: { id } })
-      .then(() => this.props.data.refetch());
+  onSongDelete(id) {                           // handler odpowiedzialny za uruchomienie mutation usuwające rekord z bazy danych
+    this.props.mutate({ variables: { id } })   
+      .then(() => this.props.data.refetch());  // inny sposób (niż ten pokazany przy dodowaniu piosenki) na wykonanie ponownego pobrania danych (ponownego wykonania query) 
   }
 
   renderSongs() {  // helper method to iterate over array of songs and return one valid JSX to render method
-    return this.props.data.songs.map(({ id, title }) => {   // dane z GraphQL dostępne pod this.props.data
+    return this.props.data.songs.map(({ id, title }) => {   // dane z GraphQL dostępne pod this.props.data, wykonany destructing
       return (
         <li key={id} className="collection-item">
           <Link to={`/songs/${id}`}>
@@ -47,14 +47,14 @@ class SongList extends Component {
   }
 }
 
-const mutation = gql`
-  mutation DeleteSong($id: ID) {
+const mutation = gql`             // mutation do usuwania piosenki
+  mutation DeleteSong($id: ID) {  // ID = typ danych z GraphQL (tak jak String, Integer, itd...)
     deleteSong(id: $id) {
       id
     }
   }
 `;
 
-export default graphql(mutation)(
-  graphql(query)(SongList)    // połączenie danych z GraphQL z komponentem; (Bond query + component) z checklisty
+export default graphql(mutation)(   // połączenie mution z komponentem i z query
+  graphql(query)(SongList)          // połączenie danych (query) z GraphQL z komponentem; (Bond query + component) z checklisty
 );
