@@ -5,10 +5,10 @@ export default gql`
     song(id: $id) {
       id
       title
-      lyrics {
-        id
+      lyrics {        // gdy pobieramy piosenkę, pobieramy też od razu wszystkie linie tekstu z nią powiązane
+        id            // pobieramy też id, aby mieć key gdy będziemy renderowac listę w React poprzez .map
         content
-        likes
+        likes         // liczba lików
       }
     }
   }
