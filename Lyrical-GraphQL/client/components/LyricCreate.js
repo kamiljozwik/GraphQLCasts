@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';         // pozwala na wykonanie query bezpośrednio z JavaScriptu
+import { graphql } from 'react-apollo';  // helper łączący GraphQL query z komponentem
 
 class LyricCreate extends Component {
   constructor(props) {
@@ -12,10 +12,10 @@ class LyricCreate extends Component {
   onSubmit(event) {
     event.preventDefault();
 
-    this.props.mutate({
-      variables: {
-        content: this.state.content,
-        songId: this.props.songId
+    this.props.mutate({               // call mutation
+      variables: {                    // zmienne dla query
+        content: this.state.content,  
+        songId: this.props.songId     
       }
     }).then(() => this.setState({ content: '' }));
   }
@@ -46,4 +46,4 @@ const mutation = gql`
   }
 `;
 
-export default graphql(mutation)(LyricCreate);
+export default graphql(mutation)(LyricCreate);  // associate mutaion with component
