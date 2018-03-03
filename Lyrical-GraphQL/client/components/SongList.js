@@ -14,7 +14,7 @@ class SongList extends Component {
     return this.props.data.songs.map(({ id, title }) => {   // dane z GraphQL dostępne pod this.props.data, wykonany destructing
       return (
         <li key={id} className="collection-item">
-          <Link to={`/songs/${id}`}>
+          <Link to={`/songs/${id}`}>            // link do pojedynczej piosenki-id pobierane przez Router i przekazywane do komponentu SongDetail, gdzie znajduje się query odczytujące id i pobierające informacje o piosence.
             {title}
           </Link>
           <i
