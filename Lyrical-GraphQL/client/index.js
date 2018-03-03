@@ -11,7 +11,7 @@ import SongCreate from './components/SongCreate';
 import SongDetail from './components/SongDetail';
 
 const client = new ApolloClient({    // new instance of Apollo Client, zakłada, że na backendzie query będą szły pod path /graphql (tak też jest wszystko ustawione w pliku index folderu server)
-  dataIdFromObject: o => o.id        // konfiguracja Apollo CLient'a
+  dataIdFromObject: o => o.id        // konfiguracja Apollo CLient'a, nie jest wymagana. Ta linia powoduje, że każda pobrana dana z backendu jest identyfikowana przez Apollo clienta po jego id (property "id") 
 });
 
 const Root = () => {
